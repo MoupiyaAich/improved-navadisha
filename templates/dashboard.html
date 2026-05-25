@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NavaDisha Dashboard</title>
+    <style>
+        body { background: #121212; color: #f8f9fa; font-family: 'Segoe UI', sans-serif; padding: 40px; }
+        h1 { color: #1db954; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #1db954; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #333; }
+        tr:hover { background: #1e293b; }
+    </style>
+</head>
+<body>
+    <h1>⚖️ NavaDisha — Legal Query Dashboard</h1>
+    <table>
+        <tr>
+            <th>Region</th>
+            <th>Legal Category</th>
+            <th>Count</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row.region }}</td>
+            <td>{{ row.legal_category }}</td>
+            <td>{{ row.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

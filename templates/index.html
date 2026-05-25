@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavaDisha AI | Legal Aid Portal</title>
+    <style>
+        body {
+            background-color: #302b2b;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 40px 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #1a252f;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        .subtitle b {
+            color: #1e293b;
+        }
+        .textarea-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        textarea {
+            width: 100%;
+            height: 160px;
+            background-color: #ffffff;
+            color: #1e293b;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 16px;
+            padding-right: 55px;
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: none;
+            font-family: inherit;
+            line-height: 1.5;
+            transition: border-color 0.2s;
+        }
+        textarea:focus {
+            border-color: #1db954;
+            outline: none;
+        }
+        .mic-btn {
+            position: absolute;
+            right: 18px;
+            bottom: 18px;
+            background-color: #f1f5f9;
+            color: #1db954;
+            border: 1px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .mic-btn:hover {
+            background-color: #1db954;
+            color: #ffffff;
+            border-color: #1db954;
+        }
+        .mic-btn.listening {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        button[type="submit"] {
+            background-color: rgb(7, 179, 50);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 15px 24px;
+            font-size: 17px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: #1c773c;
+        }
+        .lang-hint {
+            font-size: 13px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #status-message {
+            font-size: 14px;
+            color: #d97706;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: none;
+        }
+        #lang-indicator {
+            font-size: 13px;
+            color: #1db954;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+
+
+
+        #loading-overlay {
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(48, 43, 43, 0.95); 
+            z-index: 9999; 
+            color: white; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="loading-overlay">
+    <h2 style="color:#1db954;">⚖️ NavaDisha is working...</h2>
+    <p>Please wait while we collect the information...</p>
+    <p style="font-size: 12px; color: #94a3b8; margin-top: 20px;">
+        *Tip: You can also use the microphone button to speak in Hindi or Bengali.*
+    </p>
+    </div>
+        
+    <div class="container">
+        <div class="card">
+            <h1>⚖️ NavaDisha AI</h1>
+            <div class="subtitle">
+                अपनी समस्या नीचे अपनी भाषा में लिखें (বাংলা, हिंदी, English)<br>
+                <b>Write or speak your legal problem below in your preferred language.</b>
+            </div>
+
+            <div id="status-message">Listening... Speak now / বলুন...</div>
+            <div id="lang-indicator">🌐 Language: English</div>
+
+            <div style="text-align:center; margin-bottom:15px;">
+                <select id="lang-select" style="padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1; font-size:14px; color:#1e293b; background:#fff; cursor:pointer;">
+                    <option value="bn-IN">🇧🇩 বাংলা (Bengali)</option>
+                    <option value="hi-IN">🇮🇳 हिंदी (Hindi)</option>
+                    <option value="en-IN" selected>🇬🇧 English</option>
+                </select>
+            </div>
+
+            <form action="/get-help" method="POST" id="help-form">
+                <input type="hidden" id="selected-lang" name="language" value="English">
+                <select name="region" style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-size:14px; color:#1e293b; background:#fff; margin-bottom:15px;">
+                    <option value="">-- Select Your State --</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Jammu & Kashmir">Jammu & Kashmir</option>
+                    <option value="Ladakh">Ladakh</option>
+                </select>
+                <div class="textarea-container">
+                    <textarea id="problem-input" name="problem"
+                        placeholder="এখানে আপনার সমস্যাটি বলুন বা লিখুন... / यहाँ अपनी समस्या बोलें या लिखें... / Describe your legal dispute here..."></textarea>
+                    <button type="button" id="mic-toggle" class="mic-btn" title="Speak your issue">🎤</button>
+                </div>
+                <button type="submit">সাহায্য খুঁজুন / मदद पाएँ / Seek Legal Help</button>
+            </form>
+            <div class="lang-hint">Click the 🎤 icon to dictate in Bengali, Hindi, or English contexts.</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('help-form').addEventListener('submit', function() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        });
+
+        let inactivityTimer;
+
+        // 5 minutes in milliseconds: 5 * 60 * 1000 = 300000
+        function resetTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                window.location.href = "/session-ended";
+            }, 300000); 
+        }
+
+        window.onload = resetTimer;
+        document.onmousemove = resetTimer;
+        document.onkeypress = resetTimer;
+        document.onclick = resetTimer;
+
+        const micBtn = document.getElementById('mic-toggle');
+        const problemInput = document.getElementById('problem-input');
+        const statusMsg = document.getElementById('status-message');
+        const langSelect = document.getElementById('lang-select');
+        const selectedLang = document.getElementById('selected-lang');
+        const langIndicator = document.getElementById('lang-indicator');
+
+       
+        document.onscroll = resetTimer;
+
+
+        
+        document.onscroll = resetTimer;
+
+        // Update language when dropdown changes manually
+
+
+        langSelect.addEventListener('change', () => {
+            if (langSelect.value === 'bn-IN') {
+                selectedLang.value = 'Bengali';
+                langIndicator.innerText = '🌐 Language: বাংলা (Bengali)';
+            } else if (langSelect.value === 'hi-IN') {
+                selectedLang.value = 'Hindi';
+                langIndicator.innerText = '🌐 Language: हिंदी (Hindi)';
+            } else {
+                selectedLang.value = 'English';
+                langIndicator.innerText = '🌐 Language: English';
+            }
+        });
+
+        // Speech Recognition
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            let isListening = false;
+
+            micBtn.addEventListener('click', () => {
+                recognition.lang = langSelect ? langSelect.value : 'en-IN';
+                if (!isListening) {
+                    recognition.start();
+                } else {
+                    recognition.stop();
+                }
+            });
+
+            recognition.onstart = () => {
+                isListening = true;
+                micBtn.classList.add('listening');
+                statusMsg.innerText = "Listening... Speak now / বলুন... / बोलिए...";
+                statusMsg.style.display = "block";
+            };
+
+            recognition.onresult = (event) => {
+                let speechToText = event.results[0][0].transcript;
+                speechToText = speechToText.charAt(0).toUpperCase() + speechToText.slice(1);
+
+                const sentenceBreaks = [' what ', ' how ', ' why ', ' where ', ' when ', ' who ', ' which ', ' can ', ' could ', ' should ', ' would '];
+                for (const word of sentenceBreaks) {
+                    if (speechToText.toLowerCase().includes(word)) {
+                        const idx = speechToText.toLowerCase().indexOf(word);
+                        speechToText = speechToText.slice(0, idx) + '. ' + speechToText.slice(idx + 1, idx + 2).toUpperCase() + speechToText.slice(idx + 2);
+                        break;
+                    }
+                }
+
+                if (langSelect.value === 'bn-IN') {
+                    const questionWords = ['কি', 'কী', 'কেন', 'কোথায়', 'কখন', 'কিভাবে', 'কার'];
+                    const hasQuestion = questionWords.some(w => speechToText.includes(w));
+                    if (!/[।?!]$/.test(speechToText)) speechToText += hasQuestion ? '?' : '।';
+                } else if (langSelect.value === 'hi-IN') {
+                    const questionWords = ['क्या', 'कैसे', 'क्यों', 'कहाँ', 'कब', 'कौन', 'कितना'];
+                    const hasQuestion = questionWords.some(w => speechToText.includes(w));
+                    if (!/[।?!]$/.test(speechToText)) speechToText += hasQuestion ? '?' : '।';
+                } else {
+                    const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which', 'can', 'could', 'should', 'would', 'is', 'are', 'do', 'does', 'did'];
+                    const firstWord = speechToText.trim().split(' ')[0].toLowerCase();
+                    if (!/[.?!]$/.test(speechToText)) {
+                        speechToText += questionWords.includes(firstWord) ? '?' : '.';
+                    }
+                }
+
+                problemInput.value = speechToText;
+
+                // Auto detect language after speech
+                const bengaliPattern = /[\u0980-\u09FF]/;
+                const hindiPattern = /[\u0900-\u097F]/;
+                if (bengaliPattern.test(speechToText)) {
+                    langSelect.value = 'bn-IN';
+                    selectedLang.value = 'Bengali';
+                    langIndicator.innerText = '🌐 Language: বাংলা (Bengali)';
+                } else if (hindiPattern.test(speechToText)) {
+                    langSelect.value = 'hi-IN';
+                    selectedLang.value = 'Hindi';
+                    langIndicator.innerText = '🌐 Language: हिंदी (Hindi)';
+                } else {
+                    langSelect.value = 'en-IN';
+                    selectedLang.value = 'English';
+                    langIndicator.innerText = '🌐 Language: English';
+                }
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Speech Recognition Error: ", event.error);
+                statusMsg.innerText = "Error capturing voice. Try typing instead!";
+                setTimeout(() => { statusMsg.style.display = "none"; }, 3000);
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove('listening');
+                statusMsg.style.display = "none";
+            };
+
+        } else {
+            micBtn.style.display = 'none';
+        }
+
+        // Enter key submits form
+        problemInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.querySelector('button[type="submit"]').click();
+            }
+        });
+
+        // Auto detect language when user types
+        problemInput.addEventListener('input', function() {
+            const text = problemInput.value;
+            const bengaliPattern = /[\u0980-\u09FF]/;
+            const hindiPattern = /[\u0900-\u097F]/;
+
+            if (bengaliPattern.test(text)) {
+                langSelect.value = 'bn-IN';
+                selectedLang.value = 'Bengali';
+                langIndicator.innerText = '🌐 Language: বাংলা (Bengali)';
+            } else if (hindiPattern.test(text)) {
+                langSelect.value = 'hi-IN';
+                selectedLang.value = 'Hindi';
+                langIndicator.innerText = '🌐 Language: हिंदी (Hindi)';
+            } else {
+                langSelect.value = 'en-IN';
+                selectedLang.value = 'English';
+                langIndicator.innerText = '🌐 Language: English';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,2 +1,1 @@
-# improved-navadisha
-Improving NAVADISHA-AI
+improving NAVADISHA-AI

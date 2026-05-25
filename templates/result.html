@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavaDisha AI - Result</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #1e293b;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #1a252f;
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .problem-box {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .problem-box h3 {
+            color: #64748b;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .problem-box p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+            margin-right: 60px;
+            color: #334155;
+        }
+        .response-box {
+            background-color: #ffffff;
+            border: 1px solid #1db954;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .response-box h3 {
+            color: #1db954;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .response-box p {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #1e293b;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        .mic-btn {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            background-color: #f1f5f9;
+            color: #1db954;
+            border: 1px solid #cbd5e1;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .mic-btn:hover {
+            background-color: #1db954;
+            color: #ffffff;
+            border-color: #1db954;
+        }
+        .mic-btn.listening {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .back-btn {
+            display: block;
+            background-color: #1a252f;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background-color: #1db954;
+        }
+        .disclaimer {
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 13px;
+            color: #713f12;
+            line-height: 1.6;
+        }
+        .disclaimer strong {
+            color: #b45309;
+        }
+        #status-message {
+            font-size: 14px;
+            color: #b45309;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>NavaDisha AI ⚖️</h1>
+
+            <div id="status-message">Listening... Speak now / বলুন...</div>
+
+            <div class="problem-box">
+                <h3>YOUR PROBLEM</h3>
+                <p id="problem-text">{{ problem }}</p>
+                
+            </div>
+
+            <div class="response-box">
+                <h3>YOUR LEGAL GUIDE</h3>
+                <p>{{ response }}</p>
+            </div>
+
+            <a href="/" class="back-btn">← Ask Another Question</a>
+
+            <div class="disclaimer">
+                <strong>⚠️ Disclaimer:</strong> 
+                NavaDisha AI provides general legal information only. 
+                This is not professional legal advice. For serious matters, 
+                please consult a qualified lawyer or visit your nearest 
+                Legal Services Authority.
+            </div>
+        </div>
+    </div>
+
+    <script>
+ 
+        //7 minutes in milliseconds: 7 * 60 * 1000 = 300000
+        
+
+        let inactivityTimer;
+
+        function resetTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                window.location.href = "/session-ended";
+            }, 420000); 
+        }
+        window.onload = resetTimer;
+        document.onmousemove = resetTimer;
+        document.onkeypress = resetTimer;
+        document.onclick = resetTimer;
+        document.onscroll = resetTimer;
+
+        const micBtn = document.getElementById('mic-toggle');
+        const problemText = document.getElementById('problem-text');
+        const statusMsg = document.getElementById('status-message');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-IN'; 
+
+            let isListening = false;
+
+            micBtn.addEventListener('click', () => {
+                if (!isListening) {
+                    recognition.start();
+                } else {
+                    recognition.stop();
+                }
+            });
+
+            recognition.onstart = () => {
+                isListening = true;
+                micBtn.classList.add('listening');
+                statusMsg.innerText = "Listening... Speak now / বলুন... / बोलिए...";
+                statusMsg.style.display = "block";
+            };
+
+            recognition.onresult = (event) => {
+                const speechToText = event.results[0][0].transcript;
+                problemText.innerText = speechToText;
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Speech Recognition Error: ", event.error);
+                statusMsg.innerText = "Error capturing voice. Try going back to type!";
+                setTimeout(() => { statusMsg.style.display = "none"; }, 3000);
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove('listening');
+                statusMsg.style.display = "none";
+            };
+        } else {
+            micBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

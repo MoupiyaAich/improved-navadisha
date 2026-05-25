@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Expired | NavaDisha</title>
+    <style>
+        body {
+            background-color: #302b2b; /* Your requested Gray background */
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            background-color: #f8f9fa;
+            padding: 40px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+        }
+        h2 { color: #1e293b; margin-bottom: 10px; }
+        p { color: #64748b; margin-bottom: 25px; }
+        .refresh-btn {
+            background-color: #1db954; /* Green refresh button */
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .refresh-btn:hover { background-color: #1c773c; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Session Expired</h2>
+        <p>Your session has ended due to inactivity. Please click below to start a new search.</p>
+        <a href="/" class="refresh-btn">Refresh / Start Over</a>
+    </div>
+</body>
+</html>
