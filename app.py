@@ -67,20 +67,220 @@ INVALID_RESPONSES = {
 }
 
 CATEGORY_KEYWORDS = {
-    "Domestic Violence": ["beat", "hit", "abuse", "violence", "मार", "হিংসা", "মারধর"],
-    "Land Dispute": ["land", "farm", "crop", "forest", "जमीन", "জমি", "ফসল"],
-    "Wage Theft": ["salary", "wage", "mgnrega", "मजदूरी", "বেতন", "মজুরি"],
-    "Caste Discrimination": ["caste", "untouchab", "discriminat", "जाति", "জাতি"],
-    "Police/Legal": ["fir", "arrest", "police", "jail", "custody", "bail", "पुलिस", "পুলিশ"],
-    "Housing": ["evict", "house", "homeless", "बेदखल", "উচ্ছেদ"],
-    "Health": ["hospital", "doctor", "medicine", "sick", "pregnant", "अस्पताल", "হাসপাতাল"],
-    "Food Security": ["ration", "hungry", "starving", "food", "राशन", "রেশন"],
-    "Corruption": ["bribe", "corrupt", "रिश्वत", "ঘুষ"],
-    "Education": ["school", "education", "scholarship", "स्कूल", "স্কুল"],
-    "Financial": ["pension", "loan", "insurance", "पेंशन", "পেনশন"],
-    "Dowry/Marriage": ["dowry", "दहेज", "যৌতুক"],
-    "Financial": ["pension", "loan", "insurance", "पेंशन", "পেনশন", "moneylender", "interest", "debt", "borrow", "repay", "chit"],
-    "Threat/Intimidation": ["threat", "threaten", "intimidat", "extort", "blackmail", "हुमकि", "धमकी", "হুমকি"],
+    "Domestic Violence": [
+    "beat", "hit", "abuse", "violence", "assault", "slap", "kick", "punch",
+    "torture", "hurt", "wound", "injury", "attack", "harass", "harassment",
+    "threat", "threaten", "intimidat", "terror", "fear", "domestic",
+    "husband", "wife", "in-law", "mother-in-law", "father-in-law",
+    "marital", "cruelty", "498a",
+    # Bengali
+    "মারধর", "মার", "মারছে", "হিংসা", "নির্যাতন", "আঘাত", "ভয়",
+    "স্বামী", "শাশুড়ি", "শ্বশুর", "নিষ্ঠুরতা",
+    # Hindi
+    "मार", "पीट", "हिंसा", "दुर्व्यवहार", "प्रताड़ना", "धमकी",
+    "पति", "सास", "ससुर", "क्रूरता",
+],
+    "Land Dispute": [
+    "land", "farm", "crop", "forest", "field", "plot", "property",
+    "boundary", "encroach", "encroachment", "possession", "occupy",
+    "deed", "registry", "patta", "khatian", "daag", "mutation",
+    "inheritance", "inherit", "ancestral", "partition", "survey",
+    "evict", "eviction", "demolish", "demolition", "bulldoze",
+    "lease", "tenant", "landlord", "zamindari", "trespass",
+    "forest rights", "tribal land", "adivasi land",
+    # Bengali
+    "জমি", "ফসল", "বন", "সম্পত্তি", "দখল", "উচ্ছেদ", "পাট্টা",
+    "খতিয়ান", "দাগ", "উত্তরাধিকার", "বর্গা", "ভূমি",
+    # Hindi
+    "जमीन", "खेत", "फसल", "जंगल", "संपत्ति", "कब्जा", "बेदखल",
+    "पट्टा", "खसरा", "खतौनी", "विरासत", "बंटवारा",
+],
+    "Wage Theft": [
+    "salary", "wage", "wages", "pay", "payment", "unpaid", "underpaid",
+    "mgnrega", "nrega", "job card", "worksite", "minimum wage",
+    "overtime", "bonus", "deduction", "withhold", "employer",
+    "contractor", "labour", "worker", "daily wage", "piece rate",
+    "work", "job", "employment", "fired", "dismissed", "termination",
+    "layoff", "retrenchment", "gratuity", "provident fund", "pf",
+    "esic", "esi", "maternity benefit", "compensation",
+    # Bengali
+    "বেতন", "মজুরি", "কাজ", "শ্রমিক", "নিয়োগকর্তা", "ঠিকাদার",
+    "ছাঁটাই", "গ্র্যাচুইটি", "প্রভিডেন্ট ফান্ড",
+    # Hindi
+    "वेतन", "मजदूरी", "काम", "मजदूर", "नियोक्ता", "ठेकेदार",
+    "छंटनी", "ग्रेच्युटी", "भविष्य निधि",
+],
+    "Caste Discrimination": [
+    "caste", "untouchab", "discriminat", "dalit", "sc", "st",
+    "scheduled caste", "scheduled tribe", "obc", "atrocity",
+    "humiliat", "insult", "boycott", "segregat", "upper caste",
+    "lower caste", "untouchability", "manual scavenging",
+    "temple entry", "well water", "public place",
+    "adivasi", "tribal", "vanvasi",
+    # Bengali
+    "জাতি", "জাতিভেদ", "বৈষম্য", "অস্পৃশ্যতা", "দলিত",
+    "তফসিলি", "আদিবাসী", "অবমাননা",
+    # Hindi
+    "जाति", "भेदभाव", "छुआछूत", "दलित", "अनुसूचित जाति",
+    "अनुसूचित जनजाति", "अत्याचार", "अपमान", "आदिवासी",
+],
+    "Police/Legal": [
+    "fir", "complaint", "police", "arrest", "jail", "prison",
+    "custody", "bail", "court", "judge", "lawyer", "advocate",
+    "legal aid", "nalsa", "lok adalat", "magistrate", "session",
+    "high court", "supreme court", "charge", "acquit", "convict",
+    "warrant", "summon", "notice", "false case", "false fir",
+    "fake case", "framed", "bribe police", "encounter",
+    "custodial", "lockup", "remand", "chargesheet", "ipc",
+    "crpc", "evidence", "witness", "bail application",
+    # Bengali
+    "পুলিশ", "গ্রেফতার", "জেল", "কারাগার", "জামিন", "আদালত",
+    "বিচারক", "মিথ্যা মামলা", "এফআইআর", "ওয়ারেন্ট",
+    # Hindi
+    "पुलिस", "गिरफ्तार", "जेल", "जमानत", "अदालत", "न्यायाधीश",
+    "झूठा मुकदमा", "वारंट", "समन", "चार्जशीट",
+],
+    "Housing": [
+    "house", "home", "shelter", "homeless", "evict", "eviction",
+    "demolish", "demolition", "slum", "jhuggi", "colony",
+    "pmay", "awas yojana", "allotment", "flat", "room",
+    "rent", "landlord", "tenant", "notice", "repair",
+    "toilet", "sanitation", "water supply", "electricity connection",
+    # Bengali
+    "বাড়ি", "ঘর", "আশ্রয়", "বেঘর", "উচ্ছেদ", "বস্তি",
+    "টয়লেট", "স্যানিটেশন",
+    # Hindi
+    "घर", "मकान", "बेघर", "बेदखल", "झुग्गी", "किराया",
+    "मकान मालिक", "किरायेदार", "शौचालय",
+],
+    "Health": [
+    "hospital", "doctor", "medicine", "sick", "ill", "disease",
+    "pregnant", "pregnancy", "delivery", "child birth", "maternal",
+    "infant", "baby", "vaccination", "immunization", "treatment",
+    "denied treatment", "refused treatment", "emergency",
+    "ambulance", "health centre", "phc", "chc", "anm", "asha",
+    "ayushman", "pmjay", "health card", "insurance claim",
+    "operation", "surgery", "death", "died", "mental health",
+    "disability", "handicap", "janaushadhi", "generic medicine",
+    # Bengali
+    "হাসপাতাল", "ডাক্তার", "ওষুধ", "অসুস্থ", "গর্ভবতী",
+    "প্রসব", "শিশু", "চিকিৎসা", "মৃত্যু", "প্রতিবন্ধী",
+    # Hindi
+    "अस्पताल", "डॉक्टर", "दवा", "बीमार", "गर्भवती",
+    "प्रसव", "बच्चा", "इलाज", "मौत", "विकलांग",
+],
+    "Food Security": [
+    "ration", "ration card", "bpl", "apl", "pds", "fair price shop",
+    "wheat", "rice", "grain", "kerosene", "dealer", "corrupt dealer",
+    "hungry", "hunger", "starvation", "starving", "food",
+    "midday meal", "anganwadi", "icds", "nutrition",
+    "pmgkay", "food security", "entitlement",
+    # Bengali
+    "রেশন", "রেশন কার্ড", "রেশন দোকান", "ক্ষুধা", "খাবার",
+    "অঙ্গনওয়াড়ি", "পুষ্টি",
+    # Hindi
+    "राशन", "राशन कार्ड", "उचित मूल्य दुकान", "भूख", "भोजन",
+    "आंगनवाड़ी", "पोषण", "मिड डे मील",
+],
+    "Corruption": [
+    "bribe", "corrupt", "corruption", "scam", "fraud", "cheat",
+    "embezzle", "misappropriate", "money laundering",
+    "rti", "right to information", "application", "information",
+    "government", "official", "officer", "babu", "clerk",
+    "document", "record", "file", "apply", "scheme", "benefit",
+    "denied", "refused", "ignored", "no response", "pending",
+    "vigilance", "anti corruption", "lokpal", "ombudsman",
+    # Bengali
+    "ঘুষ", "দুর্নীতি", "প্রতারণা", "সরকারি", "আধিকারিক",
+    "নথি", "আবেদন", "তথ্য অধিকার",
+    # Hindi
+    "रिश्वत", "भ्रष्टाचार", "धोखा", "सरकारी", "अधिकारी",
+    "दस्तावेज", "आवेदन", "सूचना का अधिकार",
+],
+    "Education": [
+    "school", "college", "university", "admission", "fee",
+    "scholarship", "stipend", "rte", "right to education",
+    "dropout", "out of school", "teacher", "midday meal",
+    "uniform", "book", "exam", "result", "certificate",
+    "marksheet", "degree", "caste certificate", "sc st scholarship",
+    "post matric", "pre matric", "national scholarship",
+    # Bengali
+    "স্কুল", "কলেজ", "ভর্তি", "বৃত্তি", "শিক্ষা", "পরীক্ষা",
+    "সার্টিফিকেট", "মার্কশিট",
+    # Hindi
+    "स्कूल", "कॉलेज", "दाखिला", "छात्रवृत्ति", "शिक्षा",
+    "परीक्षा", "प्रमाण पत्र", "मार्कशीट",
+],
+    "Financial": [
+    "pension", "old age pension", "widow pension", "disability pension",
+    "nsap", "loan", "microfinance", "self help group", "shg",
+    "bank", "account", "jan dhan", "pm kisan", "kisan credit card",
+    "insurance", "crop insurance", "pmfby", "life insurance",
+    "claim", "nominee", "interest", "moneylender", "mahajan",
+    "debt", "repay", "recovery", "seized", "attachment",
+    "subsidy", "pm awas", "ujjwala", "lpg", "gas connection",
+    # Bengali
+    "পেনশন", "বিধবা ভাতা", "ঋণ", "ব্যাংক", "বিমা",
+    "সুদ", "মহাজন", "ভর্তুকি",
+    # Hindi
+    "पेंशन", "विधवा भत्ता", "कर्ज", "बैंक", "बीमा",
+    "ब्याज", "महाजन", "सब्सिडी",
+],
+    "Dowry/Marriage": [
+    "dowry", "dowry death", "498a", "domestic violence",
+    "marry", "marriage", "wedding", "forced marriage",
+    "child marriage", "underage marriage", "divorce", "separation",
+    "maintenance", "alimony", "custody", "child custody",
+    "stridhan", "property rights", "widow", "widower",
+    "remarriage", "abandonment", "deserted", "bigamy",
+    # Bengali
+    "যৌতুক", "বিয়ে", "জোর করে বিয়ে", "বাল্যবিবাহ",
+    "তালাক", "ভরণপোষণ", "হেফাজত", "বিধবা", "পরিত্যক্তা",
+    # Hindi
+    "दहेज", "शादी", "जबरन शादी", "बाल विवाह",
+    "तलाक", "गुजारा भत्ता", "हिरासत", "विधवा", "परित्यक्ता",
+],
+    "Forced/Bonded Labour": [
+    "forced", "bonded", "bonded labour", "slave", "slavery",
+    "trafficking", "kidnap", "kidnapping", "missing",
+    "child labour", "child work", "minor working",
+    "prostitution", "flesh trade", "rescue", "rehabilitation",
+    "locked", "confined", "captive", "escape",
+    # Bengali
+    "জোরপূর্বক", "বন্ধুয়া", "দাসত্ব", "পাচার", "অপহরণ",
+    "শিশুশ্রম", "নিখোঁজ",
+    # Hindi
+    "जबरदस्ती", "बंधुआ", "दासता", "तस्करी", "अपहरण",
+    "बाल श्रम", "लापता",
+],
+    "Sexual_Violence": [
+    "rape", "sexual assault", "molestation", "molest",
+    "harassment", "sexual harassment", "posco", "pocso",
+    "eve teasing", "stalking", "voyeurism", "obscene",
+    "indecent", "outrage modesty",
+    # Bengali
+    "ধর্ষণ", "যৌন নির্যাতন", "শ্লীলতাহানি", "উত্ত্যক্ত",
+    "পিছু নেওয়া",
+    # Hindi
+    "बलात्कार", "यौन उत्पीड़न", "छेड़छाड़", "पीछा करना",
+],
+    "Utilities/Entitlements": [
+    "electricity", "power", "light", "meter", "bill", "connection",
+    "water", "drinking water", "tap", "pipeline", "borewell",
+    "toilet", "swachh bharat", "open defecation",
+    "road", "drainage", "flood", "natural disaster",
+    "relief", "compensation", "ndrf", "sdrf",
+    "certificate", "birth certificate", "death certificate",
+    "caste certificate", "income certificate", "domicile",
+    "voter id", "aadhar", "ration card correction",
+    # Bengali
+    "বিদ্যুৎ", "পানি", "পানীয় জল", "টয়লেট", "রাস্তা",
+    "সার্টিফিকেট", "জন্ম সনদ", "ভোটার আইডি", "আধার",
+    # Hindi
+    "बिजली", "पानी", "पेयजल", "शौचालय", "सड़क",
+    "प्रमाण पत्र", "जन्म प्रमाण पत्र", "मतदाता पहचान", "आधार",
+],
+    "Threat/Intimidation": ["threat", "threaten", "intimidate", "extort", "blackmail", "हुमकि", "धमकी", "হুমকি"],
 }
 
 def detect_category(problem):
