@@ -4,13 +4,15 @@ from database import save_to_db
 from rag import build_chain, ask_question
 from dotenv import load_dotenv
 from database import save_to_db, db_config
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import mysql.connector
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
-
+limiter = Limiter(get_remote_address, app=app, default_limits=["10 per hour"])
 print("Loading RAG pipeline...")
 chain = build_chain()
 print("NavaDisha AI Ready!")
@@ -299,6 +301,7 @@ def home():
     return render_template("index.html")
 
 @app.route("/get-help", methods=["POST"])
+@limiter.limit("10 per hour")
 def get_help():
     user_problem = request.form.get("problem", "").strip()
     language = request.form.get("language", "English")

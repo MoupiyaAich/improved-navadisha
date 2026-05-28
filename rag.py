@@ -1,7 +1,9 @@
+import os
+
 from langchain_community.retrievers import BM25Retriever
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_community.llms import Ollama
+from langchain_groq import ChatGroq
 from langchain_classic.chains.retrieval import create_retrieval_chain
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_classic.prompts import ChatPromptTemplate
@@ -180,13 +182,7 @@ def build_chain():
     )
 
     # Optimized settings for llama3.2:2b
-    llm = Ollama(
-        model="llama3.2:3b",
-        num_predict=1000,
-        temperature=0.3,
-        num_ctx=2048,
-        num_thread=8
-    )
+    llm = ChatGroq(model="llama3-8b-8192", api_key=os.getenv("GROQ_API_KEY"))
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", PROMPT_TEMPLATE),
